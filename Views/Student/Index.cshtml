@@ -1,15 +1,470 @@
-@Model MyMvcApp.Models.Student
+@model MyMvcApp.Models.Student
 
-<h1>@ViewBag.KahitAnongTitle</h1>
-<h3>@ViewData["KahitAnoUlet"]</h3>
-<div>
-    <span>
-        <h2>Student Number</h1> 
-        <label>@Model.StudentNumber</label>
-    </span>
-    <span>
-        <h2>Name</h1> 
-        <label>@String.Format("{0} {1} {2}",Model.FirstName, Model.MiddleName, Model.LastName) </label>
-    </span>
+@{
+    ViewData["Title"] = "Kenneth Velasco | Portfolio";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background: #fffbed;
+        color: #172b40;
+        font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .portfolio {
+        width: 100%;
+        min-height: 100vh;
+    }
+
+    /* HOME SECTION */
+
+    .home-section {
+        min-height: 350px;
+        display: grid;
+        grid-template-columns: 46% 54%;
+        background: #fffbed;
+        border-bottom: 1px solid #aaa995;
+    }
+
+    .home-left {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 35px;
+        border-right: 1px solid #aaa995;
+    }
+
+    /* ILLUSTRATION FRAME */
+    .illustration-frame {
+        width: clamp(250px, 23vw, 350px);
+        height: auto;
+        padding: 4px;
+        border: 1px solid #858474;
+        border-radius: 150px 150px 0 0;
+        overflow: visible;
+        box-sizing: border-box;
+    }
+
+    /* ILLUSTRATION IMAGE */
+    .illustration-frame img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        border: none;
+        border-radius: 145px 145px 0 0;
+    }
+
+    .home-right {
+        display: grid;
+        grid-template-rows: 2fr 1fr;
+    }
+
+    .name-container {
+        display: flex;
+        align-items: center;
+        padding: 35px;
+        border-bottom: 1px solid #aaa995;
+    }
+
+    .name-container h1 {
+        font-size: clamp(38px, 6vw, 55px);
+        font-weight: 400;
+        line-height: .95;
+        letter-spacing: -2px;
+    }
+
+    .intro-container {
+        display: flex;
+        align-items: center;
+        padding: 25px 35px;
+    }
+
+    .intro-container p {
+        font-size: 12px;
+        line-height: 1.4;
+        max-width: 350px;
+    }
+
+    /* CONTACT SECTION */
+
+    .contact-section {
+        min-height: 350px;
+        display: grid;
+        grid-template-columns: 34% 66%;
+        background: #9caf98;
+        color: #fffbed;
+    }
+
+    .contact-left {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid rgba(255, 251, 237, .65);
+        padding: 30px;
+    }
+
+    .profile-photo {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        border: 1px solid #52694f;
+        padding: 3px;
+        object-fit: cover;
+    }
+
+    .contact-heading {
+        position: absolute;
+        bottom: 22px;
+        left: 30px;
+        font-size: 29px;
+        font-weight: 400;
+    }
+
+    .contact-heading em {
+        font-style: italic;
+    }
+
+    .contact-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 40px 0;
+    }
+
+    .contact-row {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        align-items: center;
+        min-height: 43px;
+        padding: 8px 35px;
+        border-top: 1px solid rgba(255, 251, 237, .55);
+        font-size: 12px;
+    }
+
+    .contact-row:last-child {
+        border-bottom: 1px solid rgba(255, 251, 237, .55);
+    }
+
+    .contact-label {
+        font-style: italic;
+        color: #fff2d6;
+    }
+
+    .contact-row a {
+        color: #fffbed;
+        text-decoration: none;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+    }
+
+    .contact-row a:hover {
+        text-decoration: underline;
+    }
+
+    /* RESPONSIVE DESIGN */
+
+    @@media (max-width: 650px) {
+        .home-section {
+            grid-template-columns: 1fr;
+        }
+
+        .home-left {
+            border-right: none;
+            border-bottom: 1px solid #aaa995;
+            min-height: 320px;
+        }
+
+        .home-right {
+            min-height: 250px;
+        }
+
+        .name-container {
+            padding: 30px;
+        }
+
+        .intro-container {
+            padding: 25px 30px;
+        }
+
+        .contact-section {
+            grid-template-columns: 1fr;
+        }
+
+        .contact-left {
+            min-height: 320px;
+            border-right: none;
+            border-bottom: 1px solid rgba(255, 251, 237, .65);
+        }
+
+        .contact-heading {
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .contact-right {
+            padding: 30px 0;
+        }
+
+        .contact-row {
+            grid-template-columns: 85px 1fr;
+            padding: 12px 20px;
+        }
+    }
+
+    /* REMOVE SIDE MARGINS ON PORTFOLIO PAGE */
+
+    html,
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    body:has(.portfolio) .container {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    body:has(.portfolio) main {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .portfolio,
+    .home-section,
+    .contact-section {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+
+    /* ===== FULL-SCREEN PORTFOLIO PROPORTIONS ===== */
+
+    html,
+    body {
+        width: 100%;
+        min-height: 100%;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden;
+    }
+
+    /* Remove Bootstrap container restrictions */
+    body:has(.portfolio) .container,
+    body:has(.portfolio) main {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Portfolio fills available viewport */
+    .portfolio {
+        width: 100%;
+        max-width: none;
+        min-height: calc(100vh - 57px);
+        margin: 0;
+    }
+
+    /* Both sections share the available height */
+    .home-section,
+    .contact-section {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        min-height: calc((100vh - 57px) / 2);
+    }
+
+    /* HOME SECTION */
+    .home-left {
+        padding: 30px;
+    }
+
+    .illustration-frame {
+        width: clamp(190px, 17vw, 270px);
+        height: clamp(290px, 39vh, 370px);
+    }
+
+    .name-container {
+        padding: 45px;
+    }
+
+    .name-container h1 {
+        font-size: clamp(55px, 5vw, 78px);
+        line-height: .95;
+    }
+
+    .intro-container {
+        padding: 35px 45px;
+    }
+
+    .intro-container p {
+        font-size: clamp(14px, 1.1vw, 17px);
+        line-height: 1.6;
+        max-width: 500px;
+    }
+
+    /* CONTACT SECTION */
+    .contact-left {
+        padding: 35px;
+    }
+
+    .profile-photo {
+        width: clamp(170px, 15vw, 230px);
+        height: clamp(170px, 15vw, 230px);
+    }
+
+    .contact-heading {
+        font-size: clamp(30px, 2.5vw, 42px);
+        bottom: 30px;
+        left: 35px;
+    }
+
+    .contact-right {
+        padding: 45px 0;
+    }
+
+    .contact-row {
+        min-height: 55px;
+        grid-template-columns: 140px 1fr;
+        padding: 12px 40px;
+        font-size: clamp(13px, 1vw, 16px);
+    }
+
+    /* Smaller screens */
+    @@media (max-width: 650px) {
+        .portfolio {
+            min-height: auto;
+        }
+
+        .home-section,
+        .contact-section {
+            min-height: auto;
+        }
+
+        .illustration-frame {
+            width: 190px;
+            height: 290px;
+        }
+
+        .name-container h1 {
+            font-size: 48px;
+        }
+
+        .profile-photo {
+            width: 170px;
+            height: 170px;
+        }
+
+        .contact-row {
+            grid-template-columns: 85px 1fr;
+            padding: 12px 20px;
+        }
+    }
+
+</style>
+
+<div class="portfolio">
+
+    <!-- PAGE 1: HOME -->
+
+    <section class="home-section" id="home">
+
+        <div class="home-left">
+            <div class="illustration-frame">
+                <img src="~/images/profile-illustration.png"
+                     asp-append-version="true"
+                     alt="Kenneth Velasco illustration" />
+            </div>
+        </div>
+
+        <div class="home-right">
+
+            <div class="name-container">
+                <h1>
+                    Kenneth<br />
+                    Velasco
+                </h1>
+            </div>
+
+            <div class="intro-container">
+                <p>
+                    I am an aspiring full developer, currently a
+                    second year BS Computer Science student from
+                    the Polytechnic University of the Philippines.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- PAGE 2: CONTACT -->
+
+    <section class="contact-section" id="contact">
+
+        <div class="contact-left">
+
+            <img src="~/images/profile-photo.jpg"
+                 asp-append-version="true"
+                 alt="Kenneth Velasco"
+                 class="profile-photo" />
+
+            <h2 class="contact-heading">
+                Get in <em>touch</em>
+            </h2>
+
+        </div>
+
+        <div class="contact-right">
+
+            <div class="contact-row">
+                <span class="contact-label">Email</span>
+
+                <a href="mailto:velascokenneth0528@gmail.com">
+                    velascokenneth0528@gmail.com
+                </a>
+            </div>
+
+            <div class="contact-row">
+                <span class="contact-label">GitHub</span>
+
+                <a href="https://github.com/kennethvelasco-dev"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    https://github.com/kennethvelasco-dev
+                </a>
+            </div>
+
+            <div class="contact-row">
+                <span class="contact-label">LinkedIn</span>
+
+                <a href="https://www.linkedin.com/in/kenneth-velasco-b45f53234/"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    https://www.linkedin.com/in/kenneth-velasco-b45f53234/
+                </a>
+            </div>
+
+        </div>
+
+    </section>
+
 </div>
-
